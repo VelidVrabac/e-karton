@@ -1,6 +1,6 @@
 #include <iostram>
 
-using name space std;
+using namespace std;
 
 void printf(int n) {
 	if(n<2)
