@@ -1,8 +1,20 @@
 #include <iostram>
 
+using name space std;
+
+void printf(int n) {
+	if(n<2)
+	  cout << n;
+	else {
+		printf(n-1);
+		cout << "," << n;
+	}
+}
+
 int main(){
 
-	std::cout << "Test" << std::endl;
-	std::cout << :D << std::endl;
+	cout << "Test" << endl;
+	int N = 9;
+	printf(N);
 	return 0;
 }
