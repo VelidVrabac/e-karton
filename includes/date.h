@@ -15,6 +15,7 @@ class Date{
     int _Hour;
   public:
     Date(): _Day(0), _Month(0), _Year(0), _Hour(0) {}
+    Date( int day , int month , int year , int hour ){ _Day=day , _Month=month , _Year=year , _Hour = hour ;}
     ~Date() = default;
     
     int getDay() const { return _Day; }
@@ -39,7 +40,7 @@ void Date::addDate(int day, int month, int year, int hour){
 }
 
 std::ostream& operator<<(std::ostream& exit, const Date& d) {
-  exit << d._Day << "." << d._Month << "." << d._Year << " " << std::endl;
+  exit << d._Day << "." << d._Month << "." << d._Year << "at "<< d._Hour << " o'clock." << std::endl;
   return exit;
 }
 

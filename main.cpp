@@ -1,20 +1,20 @@
-#include <iostram>
+#include <iostream>
+#include <string>
+#include "ListofOrders.h"
 
 using namespace std;
 
-void printf(int n) {
-	if(n<2)
-	  cout << n;
-	else {
-		printf(n-1);
-		cout << "," << n;
-	}
-}
-
 int main(){
+  Date datum( 15 , 6 , 2015, 9 );
+  Order novi( 1543 , "mirsad" , "ribic" );
+  novi.setDate( datum );
+  ListOfOrders lista;
+  lista.addNewOrder( novi );
+  Order novi2( 1544 , "mirnes" , "ribic" );
+  Order novi3( 1545 , "mirnes" , "ribic" );
+  lista.addNewOrder( novi2 );
+  lista.addNewOrder( novi3 );
+  lista.printOrders();
 
-	cout << "Test" << endl;
-	int N = 9;
-	printf(N);
-	return 0;
+
 }
