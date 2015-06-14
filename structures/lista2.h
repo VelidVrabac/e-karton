@@ -95,6 +95,12 @@ template <typename Type>
        return *this;
      }
      iterator operator++(int){
+       if(p_node->getNext()==nullptr){
+         Node<Type> *temp;
+         temp=p_node;
+         p_node=p_node->getNext();
+         return iterator(temp);
+       }
        p_node = p_node->getNext();
        return iterator(p_node->getPrev());
        //return p_node->prev_node;
