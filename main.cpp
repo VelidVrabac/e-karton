@@ -24,6 +24,9 @@ int main(){
   Order novi5 ( 2345 , "josnovih" , "aa" );
   lista.addNewOrder( novi5 );
   lista.printOrders();
+
+	lista.finishOrder( 2345, "Glavobolja" );
+	lista.finishOrder( 1533, "Bronhitis" );
   
 
 

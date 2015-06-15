@@ -2,10 +2,28 @@
 #define _LISTOFORDERS_H
 #include <iostream>
 #include <ctime>
-#include "/home/mirsad/Desktop/e-karton/structures/lista2.h"
+#include "../structures/lista2.h"
 #include "order.h"
+#include <fstream>
 
 using namespace std;
+
+void saveOrder( Node<Order>* founded, const string& diagnoze){
+	if(founded != nullptr){	
+		// saving finished order to history of orders
+		ofstream fs("orderHistory.txt", ostream::app);
+		if(!fs) {
+			fs.close();
+		}
+		else{
+			Date date = founded->getInfo().getDate();
+			fs << founded->getInfo().getID() << "-" << founded->getInfo().getFirstName() << "-" << founded->getInfo().getLastName()<< "-" << date.getHour() << "-" << date.getDay() << "-" << date.getMonth() << "-" << date.getYear() << "-" << diagnoze << "| \n";   
+			fs.close();
+		}
+	}
+		else
+			std::cout << "Not found order with this id!" << std::endl;
+}
 
 //function begin
 void incrementDate( Date& date ){
@@ -54,7 +72,7 @@ class ListOfOrders : public Lista2<Order>{
   public:
     void addNewOrder( Order& newItem );
     Date& findFreeDate();
-    void deleteOrder(int _ID , int day , int month , int year , int hour );
+    void finishOrder(int ID , std::string diagnoze );
     void printOrders();
 };
 // end of class definition
@@ -102,6 +120,43 @@ Date& ListOfOrders::findFreeDate(){
     }
     else
       return newDate;
+}
+
+void ListOfOrders::finishOrder( int ID, std::string diagnoze ){
+	Node<Order> *temp;
+  	temp=first;
+	if ( this->first == nullptr ){
+		std::cout << " You do not have orders! " << std::endl;
+		return;	
+	}
+	else
+	{
+		if ( this->first->getInfo().getID() == ID ){ 
+			saveOrder(first, diagnoze);			
+			pop_front();
+		}
+		else if ( this->last->getInfo().getID() == ID ){
+			saveOrder(last, diagnoze);		
+			pop_back();
+		}
+		else
+		{
+  			while ( temp!=nullptr ){
+				if((temp->getInfo()).getID() == ID){ //find order with requested id
+					// delete order
+					saveOrder(temp, diagnoze);
+					temp->getPrev()->setNext( temp->getNext() ); 
+					temp->getNext()->setPrev( temp->getPrev() );
+					temp->setPrev( nullptr );
+					temp->setNext( nullptr );
+					delete temp;
+					temp = nullptr;		
+				}
+				else
+					temp=temp->getNext();
+			}
+  		}
+	}
 }
 
 
