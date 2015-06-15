@@ -40,14 +40,24 @@ void Date::addDate(int day, int month, int year, int hour){
 }
 
 std::ostream& operator<<(std::ostream& exit, const Date& d) {
-  exit << d._Day << "." << d._Month << "." << d._Year << "at "<< d._Hour << " o'clock." << std::endl;
+  exit << d._Day << "." << d._Month << "." << d._Year << " u "<< d._Hour << " sati." << std::endl;
   return exit;
 }
 
 
 bool Date::operator<(const Date& d) const {
-  return _Day < d._Day || _Month < d._Month || _Year < d._Year || _Hour < d._Hour;
+  if ( this->getYear() != d.getYear() )
+    return this->getYear() < d.getYear();
+  else if ( this->getMonth() != d.getMonth() )
+    return this->getMonth() < d.getMonth();
+  else if ( this->getDay() != d.getDay() )
+    return this->getDay() < d.getDay();
+  else if ( this->getHour() != d.getHour() )
+    return this->getHour() < d.getHour();
+  else
+    return false;
 }
+
 
 #endif
 

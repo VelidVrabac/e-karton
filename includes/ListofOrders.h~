@@ -66,6 +66,7 @@ Date& ListOfOrders::findFreeDate(){
 
     static  Date newDate = getCurrentDate(); //getting current date
     incrementDate( newDate ); 
+    cout << "novi datum" << newDate << endl;
     if ( !isEmpty() ){
       if ( newDate < (first->getInfo()).getDate() ) // if there is a free date before next order
         return newDate;
