@@ -2,10 +2,33 @@
 #define _LISTOFORDERS_H
 #include <iostream>
 #include <ctime>
-#include "/home/mirsad/Desktop/e-karton/structures/lista2.h"
+#include "../structures/lista2.h"
 #include "order.h"
+#include <fstream>
 
 using namespace std;
+
+int saveOrder( Node<Order>* founded, const string& diagnoze){
+	if(founded != nullptr){	
+		// saving finished order to history of orders
+		ofstream fs("orderHistory.txt", ios::app);
+		if(!fs) {
+			fs.close();
+			return -1;
+		}
+		else{
+			int line =  fs.tellp();
+			Date date = founded->getInfo().getDate();
+			fs << founded->getInfo().getID() << "-" << founded->getInfo().getFirstName() << "-" << founded->getInfo().getLastName()<< "-" << date.getHour() << "-" << date.getDay() << "-" << date.getMonth() << "-" << date.getYear() << "-" << diagnoze << "\n";   
+			fs.close();
+			return line;
+		}
+	}
+	else{
+		std::cout << "Not found order with this id!" << std::endl;
+		return -1;
+	}
+}
 
 //function begin
 void incrementDate( Date& date ){
@@ -54,7 +77,7 @@ class ListOfOrders : public Lista2<Order>{
   public:
     void addNewOrder( Order& newItem );
     Date& findFreeDate();
-    void deleteOrder(int _ID , int day , int month , int year , int hour );
+    int finishOrder(int ID , std::string diagnoze );
     void printOrders();
 };
 // end of class definition
@@ -66,7 +89,6 @@ Date& ListOfOrders::findFreeDate(){
 
     static  Date newDate = getCurrentDate(); //getting current date
     incrementDate( newDate ); 
-    cout << "novi datum" << newDate << endl;
     if ( !isEmpty() ){
       if ( newDate < (first->getInfo()).getDate() ) // if there is a free date before next order
         return newDate;
@@ -103,6 +125,47 @@ Date& ListOfOrders::findFreeDate(){
     }
     else
       return newDate;
+}
+
+int ListOfOrders::finishOrder( int ID, std::string diagnoze ){
+	Node<Order> *temp;
+  	temp=first;
+	int order_line = -1;	
+	if ( this->first == nullptr ){
+		std::cout << " You do not have orders! " << std::endl;
+		return -1;	
+	}
+	else
+	{
+		if ( this->first->getInfo().getID() == ID ){
+			std::cout << "1" << std::endl; 
+			order_line = saveOrder(first, diagnoze);			
+			pop_front();
+		}
+		else if ( this->last->getInfo().getID() == ID ){
+			std::cout << "2" << std::endl;
+			order_line = saveOrder(last, diagnoze);		
+			pop_back();
+		}
+		else
+		{
+  			while ( temp!=nullptr ){
+				if((temp->getInfo()).getID() == ID){ //find order with requested id
+					// delete order
+					order_line = saveOrder(temp, diagnoze);
+					temp->getPrev()->setNext( temp->getNext() ); 
+					temp->getNext()->setPrev( temp->getPrev() );
+					temp->setPrev( nullptr );
+					temp->setNext( nullptr );
+					delete temp;
+					temp = nullptr;		
+				}
+				else
+					temp=temp->getNext();
+			}
+  		}
+	}
+	return order_line;
 }
 
 

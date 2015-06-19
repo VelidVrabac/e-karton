@@ -59,6 +59,31 @@ int main(){
 
 	cout << "za id: 1122 " << endl;
 	stablo.findWord(1122);
+/*
+
+	pozicija = lista.finishOrder( 2345, "Glavobolja" );
+	stablo.addPosition(2345, pozicija);
+	pozicija = lista.finishOrder( 1533, "Bronhitis" );
+	stablo.addPosition(1533, pozicija);
+	pozicija = lista.finishOrder( 1543, "Tuberkuloza" );
+	stablo.addPosition(1543, pozicija);
+	pozicija = lista.finishOrder( 1544, "Akutna upala jednjaka" );
+	stablo.addPosition(1544, pozicija);
+	pozicija = lista.finishOrder( 1545, "Prostata" );
+	stablo.addPosition(1545, pozicija);
+	string txt;
+  ifstream file ("orderHistory.txt", ios::binary|ios::in|ios::ate);
+  if (file.is_open())
+  {
+    
+   file.seekg (118, ios::beg);
+	getline(file, txt);    
+	file.close();
+
+  }
+	cout << "ta riječ je: " << endl;
+	cout << txt << endl;
+*/
 
   return 0;
 

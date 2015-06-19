@@ -8,21 +8,26 @@
 
 using namespace std;
 
-void saveOrder( Node<Order>* founded, const string& diagnoze){
+int saveOrder( Node<Order>* founded, const string& diagnoze){
 	if(founded != nullptr){	
 		// saving finished order to history of orders
-		ofstream fs("orderHistory.txt", ostream::app);
+		ofstream fs("orderHistory.txt", ios::app);
 		if(!fs) {
 			fs.close();
+			return -1;
 		}
 		else{
+			int line =  fs.tellp();
 			Date date = founded->getInfo().getDate();
-			fs << founded->getInfo().getID() << "-" << founded->getInfo().getFirstName() << "-" << founded->getInfo().getLastName()<< "-" << date.getHour() << "-" << date.getDay() << "-" << date.getMonth() << "-" << date.getYear() << "-" << diagnoze << "| \n";   
+			fs << founded->getInfo().getID() << "-" << founded->getInfo().getFirstName() << "-" << founded->getInfo().getLastName()<< "-" << date.getHour() << "-" << date.getDay() << "-" << date.getMonth() << "-" << date.getYear() << "-" << diagnoze << "\n";   
 			fs.close();
+			return line;
 		}
 	}
-		else
-			std::cout << "Not found order with this id!" << std::endl;
+	else{
+		std::cout << "Not found order with this id!" << std::endl;
+		return -1;
+	}
 }
 
 //function begin
@@ -72,7 +77,7 @@ class ListOfOrders : public Lista2<Order>{
   public:
     void addNewOrder( Order& newItem );
     Date& findFreeDate();
-    void finishOrder(int ID , std::string diagnoze );
+    int finishOrder(int ID , std::string diagnoze );
     void printOrders();
 };
 // end of class definition
@@ -122,21 +127,22 @@ Date& ListOfOrders::findFreeDate(){
       return newDate;
 }
 
-void ListOfOrders::finishOrder( int ID, std::string diagnoze ){
+int ListOfOrders::finishOrder( int ID, std::string diagnoze ){
 	Node<Order> *temp;
   	temp=first;
+	int order_line = -1;	
 	if ( this->first == nullptr ){
 		std::cout << " You do not have orders! " << std::endl;
-		return;	
+		return -1;	
 	}
 	else
 	{
-		if ( this->first->getInfo().getID() == ID ){ 
-			saveOrder(first, diagnoze);			
+		if ( this->first->getInfo().getID() == ID ){
+			order_line = saveOrder(first, diagnoze);			
 			pop_front();
 		}
 		else if ( this->last->getInfo().getID() == ID ){
-			saveOrder(last, diagnoze);		
+			order_line = saveOrder(last, diagnoze);		
 			pop_back();
 		}
 		else
@@ -144,7 +150,7 @@ void ListOfOrders::finishOrder( int ID, std::string diagnoze ){
   			while ( temp!=nullptr ){
 				if((temp->getInfo()).getID() == ID){ //find order with requested id
 					// delete order
-					saveOrder(temp, diagnoze);
+					order_line = saveOrder(temp, diagnoze);
 					temp->getPrev()->setNext( temp->getNext() ); 
 					temp->getNext()->setPrev( temp->getPrev() );
 					temp->setPrev( nullptr );
@@ -157,6 +163,7 @@ void ListOfOrders::finishOrder( int ID, std::string diagnoze ){
 			}
   		}
 	}
+	return order_line;
 }
 
 
