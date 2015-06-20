@@ -93,6 +93,7 @@ class ListOfOrders : public Lista2<Order>{
     Date& findFreeDate();
     int finishOrder(int ID , std::string diagnoze );
     void printOrders();
+    void SaveUnfinished();
 };
 // end of class definition
 
@@ -229,6 +230,29 @@ void ListOfOrders::addNewOrder( Order& newItem ){
  }
 }
 
+void ListOfOrders::SaveUnfinished() {
+  // Save the file
+  ofstream UnfinishedOrder;
+  UnfinishedOrder.open("UnfinishedOrder.txt", ios::app ); 
+  if(UnfinishedOrder.is_open()){
+    Node<Order> *temp;
+    temp = first;
+    while(temp != nullptr) {
+      Date date = temp->getInfo().getDate();
+      Order person =  temp->getInfo();
+      UnfinishedOrder << person.getID() << " " << person.getFirstName() << " " << person.getLastName() << " " 
+        << date.getHour() << " " << date.getDay() << " " << date.getMonth() << " " << date.getYear();
+      UnfinishedOrder << endl;
+      temp = temp->getNext();
+    }
+    UnfinishedOrder.close();
+  }
+  else {
+    cout << "There was an error opening the file." << endl;
+    UnfinishedOrder.close();
+    return;
+  }
+}
 
 void ListOfOrders::printOrders(){
   Node<Order> *temp;
