@@ -40,9 +40,23 @@ void incrementDate( Date& date ){
   else if ( date.getHour() > 15 ){
     date.setHour( 8 );
     date.setDay( date.getDay()+1 );
-    if ( date.getDay()>30 ){
-      date.setMonth( date.getMonth() + 1 );
+
+    if ( date.getMonth() == 2 && date.getDay()>28 ){
+      date.setMonth( 3 );
       date.setDay( 1 );
+    }
+
+    if ( date.getMonth() == 4 || date.getMonth() == 6 || date.getMonth() == 9 || date.getMonth() == 11 ){
+      if ( date.getDay() > 30 ){
+        date.setMonth( date.getMonth() + 1 );
+        date.setDay( 1 );
+      }
+    }
+    else{
+      if ( date.getDay() > 31 ){
+        date.setMonth( date.getMonth() + 1 );
+        date.setDay( 1 );
+      }
     }
     if ( date.getMonth() > 12 ){
       date.setYear( date.getYear() + 1 );

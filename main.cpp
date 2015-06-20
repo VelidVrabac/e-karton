@@ -7,9 +7,21 @@ using namespace std;
 
 int main(){
 
-	orderTree stablo;
+/*	orderTree stablo;
+	stablo.load();
+	orderPosition one( 1111 );
+  orderPosition two( 1112 );
+  stablo.addPosition( 1111 , 144 );
+  stablo.addPosition( 1111 , 157 );
+  stablo.addPosition( 1112 , 41 );
+  stablo.inorderTraversal();
+  cout << endl;
+  cout << stablo.treeHeight() << endl;
+  stablo.save();
 
-  Date datum( 15 , 6 , 2015, 9 );
+	orderTree stablo;
+*/
+  Date datum( 21 , 6 , 2015, 9 );
   Order novi( 1543 , "mirsad" , "ribic" );
   novi.setDate( datum );
   ListOfOrders lista;
@@ -22,11 +34,13 @@ int main(){
   lista.addNewOrder( novi3 );
   cout << "dodan novi3 " << endl;
   Order novi4 ( 1533 , "novi" , "je" );
-  Date datum2 ( 16 , 6 , 2015 , 9 );
+  Date datum2 ( 22 , 6 , 2015 , 9 );
   novi4.setDate(datum2);
   lista.addNewOrder(novi4);
   Order novi5 ( 2345 , "josnovih" , "aa" );
   lista.addNewOrder( novi5 );
+  lista.printOrders();
+  /*
 	for(int i = 0; i < 40; i++){
 		Order x(1122, "Velid", "Vrabac");	
 		lista.addNewOrder(x);
@@ -62,5 +76,5 @@ int main(){
 
   return 0;
 
-
+*/
 }

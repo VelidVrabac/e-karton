@@ -48,9 +48,7 @@ void BstStablo<elemType>::insert(const elemType& insertItem)
 	binaryTreeNode<elemType> *newNode; 
 	newNode = new binaryTreeNode<elemType>(insertItem);
 	if (this->root == nullptr){
-		std::cout << "test ispis 1 problem xxx" << std::endl;
 		this->root = newNode;
-		std::cout << "test 1 ispis" << std::endl;
 	}
 	else
 	{

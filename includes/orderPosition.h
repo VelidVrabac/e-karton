@@ -18,6 +18,7 @@ class orderPosition {
 			_position=x._position;
 		}
 		queue<int>& getPosition() { return _position; }
+    int getID() { return _ID; }
 		void addPosition(const int& pos) { _position.push(pos); }
 		bool operator == (const orderPosition& op) const { return _ID == op._ID; }
 		bool operator > (const orderPosition& op) const { return _ID > op._ID; }

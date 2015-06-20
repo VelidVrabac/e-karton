@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <string>
-#include <fstream>
 #include "../structures/binarySearchTree.hxx" 
 #include "orderPosition.h"
 #include "../structures/queue.h"
@@ -18,7 +17,6 @@ class orderTree : public BstStablo<orderPosition>{
 		void save();
   private:
     void saveTree( const binaryTreeNode<orderPosition> *p );
-    void writeTree( const binaryTreeNode<orderPosition> *p , ofstream& myfile );
 
 };
 void orderTree::load(){
@@ -66,31 +64,33 @@ void orderTree::save(){
 void orderTree::saveTree(const binaryTreeNode<orderPosition> *p){
 	//spremanje iz stabla u fajl
   if ( p != nullptr ){
-    string file_name="positionsTree.txt";
+   string file_name="positionsTree.txt";
     ofstream myfile ( file_name );
-    if ( myfile.is_open() )
-        writeTree( p , myfile );
+   if ( myfile.is_open() ){
+      orderPosition X;
+      queue<int> pos;
+      X = p->info;
+      
+      cout << "X id =: " << X.getID() << endl;
+      cout << "pozicije od x: ";
+      queue<int> test;
+      test = X.getPosition();
+      while ( !test.empty() ){
+        cout << test.front() << " ";
+        test.pop(); 
+      }
+      cout << endl;
 
-    myfile.close();
-  }
-}
-
-void orderTree::writeTree( const binaryTreeNode<orderPosition> *p , ofstream& myfile ){
-  if ( p!=nullptr ){
-    orderPosition X;
-    queue<int> pos;
-    X = p->info;
-    pos = X.getPosition();
-    myfile << X.getID() << "-";
-    while ( !pos.empty() ){
-     myfile << pos.front() << "|";
-      pos.pop();
+      pos = X.getPosition();
+      myfile << X.getID() << "-";
+      while ( !pos.empty() ){
+        myfile << pos.front() << "|";
+        pos.pop();
+      }
     }
-    myfile << "\n"; 
-
-    writeTree( p->llink , myfile );
-    writeTree( p->rlink , myfile );
   }
+  saveTree( p->llink );
+  saveTree( p->rlink );
 }
 
 void orderTree::findWord(const int& id){
