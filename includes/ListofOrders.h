@@ -257,6 +257,8 @@ void ListOfOrders::SaveUnfinished() {
 void ListOfOrders::printOrders(){
   Node<Order> *temp;
   temp=first;
+	if(temp==nullptr)
+		cout<<"Nema narudzbi! "<< endl;
   while ( temp!=nullptr ){
     cout << temp->getInfo() << endl;
     temp=temp->getNext();
