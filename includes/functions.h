@@ -5,8 +5,6 @@
 #include <fstream>
 #include<iostream>
 
-using namespace std;
-
 int Id, Hours, Day, Month, Year;
 string Diagnosis,FirstName,LastName;
 
@@ -23,7 +21,7 @@ std::string getLine(int id){
 }
 
 
-void parse(string &word, int *array) {
+void parse(std::string &word, int *array) {
   Id = stoi(word.substr(0,array[0]));
   FirstName = word.substr(array[0] + 1, array[1] - array[0]-1);
   LastName = word.substr(array[1]+1, array[2]-array[1]-1);
@@ -34,7 +32,7 @@ void parse(string &word, int *array) {
   Diagnosis = word.substr(array[6]+1, word.size());
 }   
 
-void parse(string &word){
+void parse(std::string &word){
   int j = 0;
   int array[8];
   for(int i = 0; i < word.size(); ++i) {
@@ -45,13 +43,13 @@ void parse(string &word){
 }
 
 void getinfo(){
- cout << FirstName << " "<< LastName;
+ std::cout << FirstName << " "<< LastName;
 }
 
 void printf(){
-  cout << "Datum: " << Day << "." << Month << "." << Year << " u " << Hours << " sati." << endl;
-  cout << "Dijagnoza: " << Diagnosis << endl;
-  cout << endl;
+  std::cout << "Datum: " << Day << "." << Month << "." << Year << " u " << Hours << " sati." << std::endl;
+  std::cout << "Dijagnoza: " << Diagnosis << std::endl;
+  std::cout << std::endl;
 }
 
 #endif
