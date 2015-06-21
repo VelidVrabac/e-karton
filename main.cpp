@@ -7,35 +7,6 @@
 
 using namespace std;
 
-int Id, Hours, Day, Month, Year;
-string FirstName, LastName, Diagnosis;
-
-int VisitingHours = 1;
-bool promjene = false; 
-
-void parse(string & word, int *array) {
-  Id = stoi(word.substr(0,array[0]));
-  FirstName = word.substr(array[0]+1, array[1]-array[0]-1);
-  LastName = word.substr(array[1]+1, array[2]-array[1]-1);
-  Hours = stoi(word.substr(array[2]+1, array[3]- array[2]-1));
-  Day = stoi(word.substr(array[3]+1,array[4]-array[3]-1));
-  Month = stoi(word.substr(array[4]+1, array[5]-array[4]-1));
-  Year= stoi(word.substr(array[5]+1, array[6]-array[5]-1));
-  Diagnosis = word.substr(array[6]+1,word.size());
-
-}
-
-void parse(string &word) {
-  int j = 0;
-  int array[8];
-  for(int i = 0;i < word.size() ; ++i) {
-    if(word[i] == '-'){
-      array[j++] = i;
-    }
-  }
-  parse(word, array);
-}
-
 int main(){
 	cout << "Dobro jutro!" << endl;
 	cout << "Dobro dosli u ambulantu," << endl;
@@ -48,7 +19,10 @@ int main(){
 	ordersHistory.load();
 
 	cout << "Pogledajte danasnju listu narudzbi:" << endl;
+	cout << endl;
 	lista.printOrders();
+	int VisitingHours = 1;
+	bool promjene = false; 
  
 	do{
 		cout << "-----------------------------------------------------------------"<< endl;
@@ -105,7 +79,9 @@ int main(){
 				cin >> id;
 				cout << endl;
 				cout << "Unesite dijagnozu za zavrsenog pacijenta: " ;
-				cin >> diagnoze;
+        		cin.ignore();
+				getline(cin, diagnoze);
+       		    cin.clear();
 				int line=lista.finishOrder(id, diagnoze);
 				ordersHistory.addPosition(id, line);
 				promjene=true;
@@ -116,7 +92,7 @@ int main(){
 				VisitingHours = 0;
                 if(promjene){
                   int odgovor;
-                  cout << "Ukoliko zelite sacuvati vase promjene unesite 1" << endl;
+				  cout << "Imate novih promjena, ako ih zelite sacuvati unesite 1." << endl;
                   cin >> odgovor;
                   if(odgovor == 1){
                     lista.SaveUnfinished();
@@ -141,7 +117,7 @@ int main(){
 				cout << "Unesite broj kartona pacijenta ciju historiju zelite pregledati: ";
 				cin >> id;
 				cout << endl;
-				ordersHistory.findWord(id);
+				ordersHistory.findPatient(id);
 				break;
 				}
 

@@ -12,7 +12,7 @@
 class orderTree : public BstStablo<orderPosition>{
 
 	public:
-		void findWord(const int& id);
+		void findPatient(const int& id);
 		bool addPosition(const int& id, int pos);
 		void load();
 		void save();
@@ -93,17 +93,21 @@ void orderTree::writeTree( const binaryTreeNode<orderPosition> *p , ofstream& my
   }
 }
 
-void orderTree::findWord(const int& id){
+void orderTree::findPatient(const int& id){
 	orderPosition tmp(id, 0);
 	binaryTreeNode<orderPosition> *current;	
 	current = this->root;
 	while (current != nullptr) {
 		if (current->info == tmp) {
-			std::cout << current->info;
 			queue<int> tmp_q;
 			tmp_q = current->info.getPosition();
+			string info = getLine(tmp_q.front());
+			parse(info);	
+			std::cout << current->info;
 			while(!tmp_q.empty()){
-				std::cout << getLine(tmp_q.front()) << std::endl;
+				string word = getLine(tmp_q.front());
+				parse(word);
+				printf();
 				tmp_q.pop();
 			}		
 			return;
@@ -115,6 +119,7 @@ void orderTree::findWord(const int& id){
 	}
 	std::cout << "ID: '" << id << "' not found!" << std::endl;
 }
+
 bool orderTree::addPosition(const int& id, int position){
 	orderPosition element(id, position);
 	binaryTreeNode<orderPosition> *current;
