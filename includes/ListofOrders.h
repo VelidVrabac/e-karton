@@ -179,7 +179,7 @@ int ListOfOrders::finishOrder( int ID, std::string diagnoze ){
 				else
 					temp=temp->getNext();
 			}
-				  if(temp == nullptr){
+				  if(temp == nullptr)
 				  throw domain_error("ID not found, or the patient is not on the list.");
   		}
 	}
