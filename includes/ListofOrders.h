@@ -6,6 +6,7 @@
 #include "../structures/lista2.h"
 #include "order.h"
 #include <fstream>
+#include <stdexcept>
 
 using namespace std;
 
@@ -178,6 +179,8 @@ int ListOfOrders::finishOrder( int ID, std::string diagnoze ){
 				else
 					temp=temp->getNext();
 			}
+				  if(temp == nullptr){
+				  throw domain_error("ID not found, or the patient is not on the list.");
   		}
 	}
 	return order_line;
