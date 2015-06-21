@@ -1,6 +1,7 @@
 #ifndef _LISTOFORDERS_H
 #define _LISTOFORDERS_H
 #include <iostream>
+#include<string>
 #include <ctime>
 #include "../structures/lista2.h"
 #include "order.h"
@@ -94,6 +95,7 @@ class ListOfOrders : public Lista2<Order>{
     int finishOrder(int ID , std::string diagnoze );
     void printOrders();
     void SaveUnfinished();
+	void loadUnfinished();
 };
 // end of class definition
 
@@ -252,6 +254,57 @@ void ListOfOrders::SaveUnfinished() {
     UnfinishedOrder.close();
     return;
   }
+}
+
+
+void ListOfOrders::loadUnfinished() {
+		//reading from the file
+	string file_name="UnfinishedOrder.txt";
+	ifstream fs(file_name.c_str());
+	if(!fs) {
+		cout << "The file does not exist!" << endl;
+			fs.close();
+			return;
+    }
+	else{
+		string word;
+		int brojac=0;
+		Order narudzba;
+		Date datum;
+
+		while(fs >> word) {
+		if ( brojac == 0 ){
+			narudzba.setID( stoi(word) );
+			++brojac;
+		}
+		else if ( brojac == 1 ){
+			narudzba.setFirstName ( word );
+			++brojac;		
+		}
+		else if ( brojac == 2 ){
+			narudzba.setLastName ( word );
+			++brojac;		
+		}
+		else if ( brojac == 3 ){
+			datum.setHour ( stoi(word) );
+			++brojac;		
+		}
+		else if ( brojac == 4 ){
+			datum.setDay ( stoi(word) );
+			++brojac;		
+		}
+		else if ( brojac == 5 ){
+			datum.setMonth ( stoi(word) );
+			++brojac;		
+		}
+		else if ( brojac == 6 ){
+			datum.setYear ( stoi(word) );
+			narudzba.setDate ( datum );
+			this->addNewOrder ( narudzba );
+			brojac=0;
+			}
+		}
+	}
 }
 
 void ListOfOrders::printOrders(){

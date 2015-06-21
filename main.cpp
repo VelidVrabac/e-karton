@@ -11,7 +11,7 @@ int Id, Hours, Day, Month, Year;
 string FirstName, LastName, Diagnosis;
 
 int VisitingHours = 1;
-bool promjene = false;
+bool promjene = false; 
 
 void parse(string & word, int *array) {
   Id = stoi(word.substr(0,array[0]));
@@ -43,6 +43,7 @@ int main(){
 	cout << "------------------------------------------------------------------"<< endl;
 
 	ListOfOrders lista;
+	lista.loadUnfinished();
 	orderTree ordersHistory;
 	ordersHistory.load();
 
@@ -89,7 +90,7 @@ int main(){
 				cout << "Prezime: ";
 				cin >> prezime;
 				cout << "Unesite dan, mjesec, godinu i sat kad zelite narudzbu: ";
-				cin >> sat >> dan >> mjesec >> godina;
+				cin >> dan >> mjesec >> godina >> sat;
 				Order y(id, ime, prezime);
 				y.setDate(dan, mjesec, godina, sat);
 				lista.addNewOrder(y);
