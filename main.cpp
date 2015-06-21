@@ -26,11 +26,11 @@ int main(){
 	bool promjene = false; 
  
 	do{
-    cout << "Prikazati Menu. y(DA):  ";
+    cout << "Prikazati Menu: (DA):  ";
     int izbor;
-    char m;
+    string m;
     cin >> m;
-    if(m == 'y'){
+    if(m == "DA" || m=="da" || m=="Da"){
       izbor = Menu();
     }
     else {
@@ -57,6 +57,7 @@ int main(){
               }
 
 			case 2: {
+        bool found = true;
 				string ime, prezime;
 				int id, sat, dan, mjesec, godina;
 				cout << "Broj kartona: ";
@@ -65,9 +66,26 @@ int main(){
 				cin >> ime;
 				cout << "Prezime: ";
 				cin >> prezime;
-				cout << "Unesite dan, mjesec, godinu i sat kad zelite narudzbu: ";
-				cin >> dan >> mjesec >> godina >> sat;
-				Order y(id, ime, prezime);
+        Order y(id , ime , prezime);
+        while ( found ){
+				  cout << "Unesite dan, mjesec, godinu i sat kad zelite narudzbu: ";
+				  cin >> dan >> mjesec >> godina >> sat;
+          while ( sat == 10 ){
+            cout << "10h je vrijeme pauze , pokusajte ponovo: " << endl;
+            cin >> sat;
+          }
+          while ( sat < 8 || sat > 15 ){
+            cout << sat << "h je van radnog vremena , pokusajte ponovo: " << endl;
+            cin >> sat;
+          }
+
+          y.setDate( dan , mjesec, godina , sat );
+          if ( !lista.findDate( y.getDate() ) )
+             found = false;
+          else
+             cout << " Datum se vec koristi , pokusajte ponovo : " << endl;
+        }
+
 				y.setDate(dan, mjesec, godina, sat);
 				lista.addNewOrder(y);
         cout << endl;
@@ -78,6 +96,13 @@ int main(){
 				}
 
 			case 3: {
+        if ( lista.isEmpty() ){
+          cout << endl;
+          cout << "Trenutno nemate nijedne narudzbe." << endl;
+          cout << endl;
+
+          break;
+        }
 				string diagnoze;
 				int id;
 				cout << "Unesite broj kartona pacijenta sa kojim ste zavrsili: " ;
@@ -104,10 +129,10 @@ int main(){
 			case 6: {
 				VisitingHours = 0;
                 if(promjene){
-                  char odgovor;
-				  cout << "Imate novih promjena, da li ih želite spremiti. y(DA), n(NE)." << endl;
-                  cin >> odgovor;
-                  if(odgovor == 'y'){
+                  string odg;
+				  cout << "Imate novih promjena, da li ih želite spremiti. ( DA / NE )." << endl;
+                  cin >> odg;
+                  if(odg == "DA" || odg == "da" || odg=="Da"){
                     lista.SaveUnfinished();
 					ordersHistory.save();
                     cout << "Promjene uspijesno sacuvane." << endl;

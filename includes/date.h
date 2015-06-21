@@ -30,6 +30,7 @@ class Date{
 
     void addDate(int, int , int, int);
     bool operator<(const Date& d) const;
+    bool operator==(const Date& d) const;
 };
 
 void Date::addDate(int day, int month, int year, int hour){
@@ -54,6 +55,13 @@ bool Date::operator<(const Date& d) const {
     return this->getDay() < d.getDay();
   else if ( this->getHour() != d.getHour() )
     return this->getHour() < d.getHour();
+  else
+    return false;
+}
+
+bool Date::operator==(const Date& d) const {
+  if ( this->getYear() == d.getYear() && this->getMonth()==d.getMonth() && this->getDay()==d.getDay() && this->getHour()==d.getHour() )
+    return true;
   else
     return false;
 }

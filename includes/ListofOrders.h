@@ -13,7 +13,7 @@ using namespace std;
 int saveOrder( Node<Order>* founded, const string& diagnoze){
 	if(founded != nullptr){	
 		// saving finished order to history of orders
-		ofstream fs("orderHistory.txt", ios::app);
+		ofstream fs("orderHistory.txt" , ios::app );
 		if(!fs) {
 			fs.close();
 			return -1;
@@ -96,11 +96,27 @@ class ListOfOrders : public Lista2<Order>{
     int finishOrder(int ID , std::string diagnoze );
     void printOrders();
     void SaveUnfinished();
-	void loadUnfinished();
+  	void loadUnfinished();
+    bool findDate( Date& d );
 };
 // end of class definition
 
 //implementing of methods
+
+bool ListOfOrders::findDate( Date& d ){
+  Node<Order> *temp;
+  temp = first;
+  while ( temp != nullptr ){
+    if ( (temp->getInfo()).getDate() == d )
+      return true;
+    else
+      temp=temp->getNext();
+  }
+
+   return false;
+}
+
+
 Date& ListOfOrders::findFreeDate(){
     
     Node<Order> *temp;  
@@ -238,7 +254,7 @@ void ListOfOrders::addNewOrder( Order& newItem ){
 void ListOfOrders::SaveUnfinished() {
   // Save the file
   ofstream UnfinishedOrder;
-  UnfinishedOrder.open("UnfinishedOrder.txt", ios::app ); 
+  UnfinishedOrder.open("UnfinishedOrder.txt"); 
   if(UnfinishedOrder.is_open()){
     Node<Order> *temp;
     temp = first;

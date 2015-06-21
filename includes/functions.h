@@ -43,6 +43,7 @@ void printOrder(Order& order){
 }
 
 int Menu(){
+  std::cout << "---------------------------------------------------" << std::endl;
   std::cout << std::endl;
   std::cout << "1. Naruči pacijenta." << std::endl;
   std::cout << "2. Naruči pacijenta, na datum po želji." << std::endl;
