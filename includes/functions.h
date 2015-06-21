@@ -42,4 +42,17 @@ void printOrder(Order& order){
   	std::cout << std::endl;
 }
 
+int Menu(){
+  std::cout << std::endl;
+  std::cout << "1. Naruči pacijenta." << std::endl;
+  std::cout << "2. Naruči pacijenta, na datum po želji." << std::endl;
+  std::cout << "3. Dodaj dijagnozu i završi pacijenta." << std::endl;
+  std::cout << "4. Pregled narudžbi." << std::endl;
+  std::cout << "5. Pregled historije pacijenta." << std::endl;
+  std::cout << "6. Kraj radnog vremena." << std::endl;
+  int izbor;
+  std::cin >> izbor;
+  return izbor;
+}
+
 #endif

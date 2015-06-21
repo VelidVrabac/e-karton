@@ -3,14 +3,14 @@
 #include "includes/ListofOrders.h"
 #include "includes/orderTree.h"
 #include "includes/functions.h"
-#include <time.h>
+#include<time.h>
 
 using namespace std;
 
 int main(){
 	cout << "Dobro jutro!" << endl;
 	cout << "Dobro dosli u ambulantu," << endl;
-	cout << "Dr. Sara Josh" << endl;
+	cout << "Dr. Kasim Jasarevic" << endl;
 	cout << "------------------------------------------------------------------"<< endl;
 
 	ListOfOrders lista;
@@ -21,22 +21,21 @@ int main(){
 	cout << "Pogledajte danasnju listu narudzbi:" << endl;
 	cout << endl;
 	lista.printOrders();
+  cout << "------------------------------------------------------------------" << endl;
 	int VisitingHours = 1;
 	bool promjene = false; 
  
 	do{
-		cout << "-----------------------------------------------------------------"<< endl;
-		cout << "Unesite:" << endl;
-		cout << "1 -Ako zelite naruciti novog pacijenta" << endl;
-		cout << "2 -Ako zelite naruciti novog pacijenta u odredjeno vrijeme" << endl;
-		cout << "3 -Ako ste zavrsili pacijenta i zelite upisati dijagnozu" << endl;
-		cout << "4 -Ako ste zavrsili sa radnim vremenom" << endl;
-		cout << "5 -Ako zelite pregledati sve narudzbe koje imate" << endl;
-		cout << "6 -Ako vas zanima historija odredjenog pacijenta" << endl;
-		cout << "-----------------------------------------------------------------"<< endl;
-		int izbor;
-		cin >> izbor;
-
+    cout << "Prikazati Menu. y(DA):  ";
+    int izbor;
+    char m;
+    cin >> m;
+    if(m == 'y'){
+      izbor = Menu();
+    }
+    else {
+      izbor = 7;
+    }
 		switch(izbor) {
 
 			case 1: {
@@ -50,6 +49,9 @@ int main(){
 				cin >> prezime;
                 Order x(id, ime, prezime);
                 lista.addNewOrder(x);
+                cout << endl;
+                cout << "-->Uspijesno ste dodali pacijenta." << endl;
+                cout << endl;
                 promjene = true;
                 break;
               }
@@ -68,6 +70,9 @@ int main(){
 				Order y(id, ime, prezime);
 				y.setDate(dan, mjesec, godina, sat);
 				lista.addNewOrder(y);
+        cout << endl;
+        cout << "-->Uspiješno ste dodali pacijenta." << endl;
+        cout << endl;
 				promjene=true;
 				break;
 				}
@@ -82,39 +87,49 @@ int main(){
         		cin.ignore();
 				getline(cin, diagnoze);
        		    cin.clear();
-				int line=lista.finishOrder(id, diagnoze);
-				ordersHistory.addPosition(id, line);
-				promjene=true;
+        try{
+          int line = lista.finishOrder(id, diagnoze);
+          ordersHistory.addPosition(id,line);
+          cout << endl;
+          cout << "-->Završili ste pacijenta, dijagnoza postavljena." << endl;
+          promjene = true;
+        }
+        catch(exception &e){
+          cout << e.what();
+          cout << endl;
+        }
 				break;
 			}
 
-			case 4: {
+			case 6: {
 				VisitingHours = 0;
                 if(promjene){
-                  int odgovor;
-				  cout << "Imate novih promjena, ako ih zelite sacuvati unesite 1." << endl;
+                  char odgovor;
+				  cout << "Imate novih promjena, da li ih želite spremiti. y(DA), n(NE)." << endl;
                   cin >> odgovor;
-                  if(odgovor == 1){
+                  if(odgovor == 'y'){
                     lista.SaveUnfinished();
 					ordersHistory.save();
                     cout << "Promjene uspijesno sacuvane." << endl;
+                    cout << endl;
                   }
                   else {
                     cout << "Promjene nisu sacuvane." << endl;
+                    cout << endl;
                   }
                 }
                 cout << "Kraj radnog vremena. Dovidjenja!" << endl;
                 break;
               }
 
-			case 5: {
+			case 4: {
 				lista.printOrders();
 				break;
 				}
 
-			case 6: {
+			case 5: {
 				int id;
-				cout << "Unesite broj kartona pacijenta ciju historiju zelite pregledati: ";
+				cout << "Unesite broj kartona: ";
 				cin >> id;
 				cout << endl;
 				ordersHistory.findPatient(id);
@@ -128,4 +143,4 @@ int main(){
   }while(VisitingHours);
 
   return 0;
-}	
+}
