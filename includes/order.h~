@@ -32,7 +32,7 @@ class Order{
     void setLastName(const std::string& lname) { _LastName = lname; }
     void setDate(int, int, int, int);
     void setDate( const Date& otherDate );
-	 void setDiagnose( const std::string& diagnoze ) { _diagnoze = diagnoze; };
+	 void setDiagnose( const std::string& diagnoze ) { _diagnoze = diagnoze };
     bool operator<(const Order& d) const;
 
     Date& getDate(){ return _date;}

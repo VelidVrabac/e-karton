@@ -101,7 +101,7 @@ bool orderTree::findPatient(const int& id){
 		if (current->info == tmp) {
 			queue<int> tmp_q;
 			tmp_q = current->info.getPosition();
-			std::string word = getLine(tmp_q.front());
+			string word = getLine(tmp_q.front());
 			Order order;
 			order = parse(word);
 			std::cout << "Pacijent " << order.getFirstName() << " " << order.getLastName() << " je bio " << tmp_q.size() << " puta:" << std::endl;	

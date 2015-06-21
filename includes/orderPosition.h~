@@ -26,7 +26,7 @@ class orderPosition {
 		bool operator > (const orderPosition& op) const { return _ID > op._ID; }
     
 		friend std::ostream& operator<<(std::ostream& o, const orderPosition& e){    
-		 std::cout << " je bio " << e._position.size() << " puta." << std::endl;  
+		 getinfo(); std::cout << " je bio " << e._position.size() << " puta." << std::endl;  
          o << std::endl;
          return o;
   		}

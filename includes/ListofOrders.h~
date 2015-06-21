@@ -1,7 +1,7 @@
 #ifndef _LISTOFORDERS_H
 #define _LISTOFORDERS_H
 #include <iostream>
-#include <string>
+#include<string>
 #include <ctime>
 #include "../structures/lista2.h"
 #include "order.h"

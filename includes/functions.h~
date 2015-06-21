@@ -28,7 +28,7 @@ Order parse(std::string input){
 			orderArray[counter] = parsed;
 			counter++;
 	}
-	Date date(stoi(orderArray[4]), stoi(orderArray[5]), stoi(orderArray[6]), stoi(orderArray[3]));
+	Date date(stoi(orderArray[3]), stoi(orderArray[4]), stoi(orderArray[5]), stoi(orderArray[6]));
 	Order tmp(stoi(orderArray[0]), orderArray[1], orderArray[2]);
 	tmp.setDiagnose(orderArray[7]);
 	tmp.setDate(date);
