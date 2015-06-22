@@ -7,6 +7,7 @@
 #include <sstream>
 #include "order.h"
 
+
 std::string getLine(int id){
 	std::string txt;
 	std::ifstream file ("orderHistory.txt", std::ios::binary|std::ios::in|std::ios::ate);
@@ -42,16 +43,17 @@ void printOrder(Order& order){
   	std::cout << std::endl;
 }
 
-int Menu(){
+std::string Menu(){
   std::cout << "---------------------------------------------------" << std::endl;
   std::cout << std::endl;
   std::cout << "1. Naruči pacijenta." << std::endl;
   std::cout << "2. Naruči pacijenta, na datum po želji." << std::endl;
   std::cout << "3. Dodaj dijagnozu i završi pacijenta." << std::endl;
-  std::cout << "4. Pregled narudžbi." << std::endl;
-  std::cout << "5. Pregled historije pacijenta." << std::endl;
-  std::cout << "6. Kraj radnog vremena." << std::endl;
-  int izbor;
+  std::cout << "4. Pregled narudžbi po datumu." << std::endl;
+  std::cout << "5. Pregled narudžbi po imenu." << std::endl;
+  std::cout << "6. Pregled historije pacijenta." << std::endl;
+  std::cout << "7. Kraj radnog vremena." << std::endl;
+  std::string izbor;
   std::cin >> izbor;
   return izbor;
 }

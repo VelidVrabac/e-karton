@@ -7,6 +7,7 @@
 #include <sstream>
 #include "order.h"
 
+
 std::string getLine(int id){
 	std::string txt;
 	std::ifstream file ("orderHistory.txt", std::ios::binary|std::ios::in|std::ios::ate);
@@ -28,7 +29,7 @@ Order parse(std::string input){
 			orderArray[counter] = parsed;
 			counter++;
 	}
-	Date date(stoi(orderArray[3]), stoi(orderArray[4]), stoi(orderArray[5]), stoi(orderArray[6]));
+	Date date(stoi(orderArray[4]), stoi(orderArray[5]), stoi(orderArray[6]), stoi(orderArray[3]));
 	Order tmp(stoi(orderArray[0]), orderArray[1], orderArray[2]);
 	tmp.setDiagnose(orderArray[7]);
 	tmp.setDate(date);
@@ -40,6 +41,20 @@ void printOrder(Order& order){
   	std::cout << "Datum: " << datum.getDay() << "." << datum.getMonth() << "." << datum.getYear() << " u " << datum.getHour() << " sati." << std::endl;
   	std::cout << "Dijagnoza: " << order.getDiagnose() << std::endl;
   	std::cout << std::endl;
+}
+
+std::string Menu(){
+  std::cout << "---------------------------------------------------" << std::endl;
+  std::cout << std::endl;
+  std::cout << "1. Naruči pacijenta." << std::endl;
+  std::cout << "2. Naruči pacijenta, na datum po želji." << std::endl;
+  std::cout << "3. Dodaj dijagnozu i završi pacijenta." << std::endl;
+  std::cout << "4. Pregled narudžbi." << std::endl;
+  std::cout << "5. Pregled historije pacijenta." << std::endl;
+  std::cout << "6. Kraj radnog vremena." << std::endl;
+  std::string izbor;
+  std::cin >> izbor;
+  return izbor;
 }
 
 #endif

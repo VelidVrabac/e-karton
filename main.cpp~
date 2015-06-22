@@ -1,45 +1,39 @@
 #include <iostream>
 #include <string>
-//#include "includes/ListofOrders.h"
-//#include "includes/orderTree.h"
+#include "includes/ListofOrders.h"
+#include "includes/orderTree.h"
 #include "includes/functions.h"
 #include <time.h>
 
 using namespace std;
 
 int main(){
+	
 	cout << "Dobro jutro!" << endl;
 	cout << "Dobro dosli u ambulantu," << endl;
-	cout << "Dr. Sara Josh" << endl;
+	cout << "Dr. Kasim Jasarevic" << endl;
 	cout << "------------------------------------------------------------------"<< endl;
 
 	ListOfOrders lista;
 	lista.loadUnfinished();
 	orderTree ordersHistory;
 	ordersHistory.load();
-
-	cout << "Pogledajte danasnju listu narudzbi:" << endl;
-	cout << endl;
-	lista.printOrders();
+	if(lista.size() == 0)
+		cout << "Danas nema narudžbi" << endl;
+	else
+		cout << "Imate " << lista.size() << " naručenih/a pacijenata za danas" << endl;
+  	cout << "------------------------------------------------------------------" << endl;
 	int VisitingHours = 1;
 	bool promjene = false; 
  
 	do{
-		cout << "-----------------------------------------------------------------"<< endl;
-		cout << "Unesite:" << endl;
-		cout << "1 -Ako zelite naruciti novog pacijenta" << endl;
-		cout << "2 -Ako zelite naruciti novog pacijenta u odredjeno vrijeme" << endl;
-		cout << "3 -Ako ste zavrsili pacijenta i zelite upisati dijagnozu" << endl;
-		cout << "4 -Ako ste zavrsili sa radnim vremenom" << endl;
-		cout << "5 -Ako zelite pregledati sve narudzbe koje imate" << endl;
-		cout << "6 -Ako vas zanima historija odredjenog pacijenta" << endl;
-		cout << "-----------------------------------------------------------------"<< endl;
-		int izbor;
-		cin >> izbor;
-
-		switch(izbor) {
-
-			case 1: {
+    cout << "Odaberi opciju: [meni/(broj)]:  ";
+    string izbor;
+	cin >> izbor;
+   	if(izbor == "meni")
+		izbor = Menu();
+		
+		if(izbor == "1") {
                 string ime, prezime;
                 int id;
                 cout << "Broj kartona: ";
@@ -50,11 +44,15 @@ int main(){
 				cin >> prezime;
                 Order x(id, ime, prezime);
                 lista.addNewOrder(x);
+				Date tmp = x.getDate();
+                cout << endl;
+                cout << "--> Uspiješno ste naručili pacijenta, " << tmp.getDay() << "." << tmp.getMonth() << "." << tmp.getYear() << " " << tmp.getHour() << "h" << endl;
+				cout << endl;
                 promjene = true;
-                break;
               }
 
-			case 2: {
+		else if(izbor == "2") {
+        bool found = true;
 				string ime, prezime;
 				int id, sat, dan, mjesec, godina;
 				cout << "Broj kartona: ";
@@ -63,16 +61,41 @@ int main(){
 				cin >> ime;
 				cout << "Prezime: ";
 				cin >> prezime;
-				cout << "Unesite dan, mjesec, godinu i sat kad zelite narudzbu: ";
-				cin >> dan >> mjesec >> godina >> sat;
-				Order y(id, ime, prezime);
+        Order y(id , ime , prezime);
+        while ( found ){
+				  cout << "Unesite dan, mjesec, godinu i sat kad zelite narudzbu: ";
+				  cin >> dan >> mjesec >> godina >> sat;
+          while ( sat == 10 ){
+            cout << "10h je vrijeme pauze , pokusajte ponovo: " << endl;
+            cin >> sat;
+          }
+          while ( sat < 8 || sat > 15 ){
+            cout << sat << "h je van radnog vremena , pokusajte ponovo: " << endl;
+            cin >> sat;
+          }
+
+          y.setDate( dan , mjesec, godina , sat );
+          if ( !lista.findDate( y.getDate() ) )
+             found = false;
+          else
+             cout << " Datum se vec koristi , pokusajte ponovo : " << endl;
+        }
+
 				y.setDate(dan, mjesec, godina, sat);
 				lista.addNewOrder(y);
+				cout << endl;
+				cout << "--> Uspiješno ste naručili pacijenta, " << dan << "." << mjesec << "." << godina << " " << sat << "h" << endl;
+				cout << endl;
 				promjene=true;
-				break;
-				}
+		}
 
-			case 3: {
+		else if(izbor == "3") {
+        if ( lista.isEmpty() ){
+          cout << endl;
+          cout << "Trenutno nemate nijedne narudzbe." << endl;
+          cout << endl;
+
+        }else {
 				string diagnoze;
 				int id;
 				cout << "Unesite broj kartona pacijenta sa kojim ste zavrsili: " ;
@@ -82,50 +105,56 @@ int main(){
         		cin.ignore();
 				getline(cin, diagnoze);
        		    cin.clear();
-				int line=lista.finishOrder(id, diagnoze);
-				ordersHistory.addPosition(id, line);
-				promjene=true;
-				break;
+				try{
+				  int line = lista.finishOrder(id, diagnoze);
+				  ordersHistory.addPosition(id,line);
+				  cout << endl;
+				  cout << "--> Završili ste pacijenta, dijagnoza postavljena." << endl;
+				  promjene = true;
+				}
+				catch(exception &e){
+				  cout << e.what();
+				  cout << endl;
+				}
 			}
-
-			case 4: {
+		}
+			else if( izbor == "7") {
 				VisitingHours = 0;
                 if(promjene){
-                  int odgovor;
-				  cout << "Imate novih promjena, ako ih zelite sacuvati unesite 1." << endl;
-                  cin >> odgovor;
-                  if(odgovor == 1){
-                    lista.SaveUnfinished();
+                  	lista.SaveUnfinished();
 					ordersHistory.save();
-                    cout << "Promjene uspijesno sacuvane." << endl;
                   }
-                  else {
-                    cout << "Promjene nisu sacuvane." << endl;
-                  }
-                }
                 cout << "Kraj radnog vremena. Dovidjenja!" << endl;
-                break;
+         
               }
 
-			case 5: {
-				lista.printOrders();
-				break;
+			else if( izbor == "4" ) {
+				if(lista.size() == 0) 
+					cout << "Nemate naručenih pacijenata!" << endl;
+				else				
+					lista.printOrders();
 				}
+			else if( izbor == "5" ) {
+				if(lista.size() == 0)
+					cout << "Nemate naručenih pacijenata! " << endl;
+				ListOfOrders temp = lista;
+				temp.sort();
+				temp.printOrders();
+			}
 
-			case 6: {
+			else if( izbor == "6" ) {
 				int id;
-				cout << "Unesite broj kartona pacijenta ciju historiju zelite pregledati: ";
+				cout << "Unesite broj kartona: ";
 				cin >> id;
 				cout << endl;
-				ordersHistory.findPatient(id);
-				break;
-				}
-
-     	 default:
+				if(!ordersHistory.findPatient(id))
+					cout << "Pacijent sa brojem kartona '" << id << "' nije nikad dolazio kod vas!" << endl;
+			}
+     	 else 
               cout << "Pogresan izbor" << endl;
-    }
+    
 
   }while(VisitingHours);
 
   return 0;
-}	
+}

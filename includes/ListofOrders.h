@@ -10,8 +10,8 @@
 
 using namespace std;
 
-int saveOrder( Node<Order>* founded, const string& diagnoze){
-	if(founded != nullptr){	
+int saveOrder( Node<Order>* found, const string& diagnoze){
+	if(found != nullptr){	
 		// saving finished order to history of orders
 		ofstream fs("orderHistory.txt" , ios::app );
 		if(!fs) {
@@ -20,8 +20,8 @@ int saveOrder( Node<Order>* founded, const string& diagnoze){
 		}
 		else{
 			int line =  fs.tellp();
-			Date date = founded->getInfo().getDate();
-			fs << founded->getInfo().getID() << "-" << founded->getInfo().getFirstName() << "-" << founded->getInfo().getLastName()<< "-" << date.getHour() << "-" << date.getDay() << "-" << date.getMonth() << "-" << date.getYear() << "-" << diagnoze << "\n";   
+			Date date = found->getInfo().getDate();
+			fs << found->getInfo().getID() << "-" << found->getInfo().getFirstName() << "-" << found->getInfo().getLastName()<< "-" << date.getHour() << "-" << date.getDay() << "-" << date.getMonth() << "-" << date.getYear() << "-" << diagnoze << "\n";   
 			fs.close();
 			return line;
 		}
@@ -98,6 +98,7 @@ class ListOfOrders : public Lista2<Order>{
     void SaveUnfinished();
   	void loadUnfinished();
     bool findDate( Date& d );
+	void sort();
 };
 // end of class definition
 
@@ -115,7 +116,27 @@ bool ListOfOrders::findDate( Date& d ){
 
    return false;
 }
+void ListOfOrders::sort(){
 
+	Node<Order> *temp1,*temp2, *min;
+    temp1 = first;
+    while(temp1 != nullptr) {
+		min = temp1;
+		temp2 = temp1->getNext();
+		while(temp2 != nullptr){
+			if((temp2->getInfo()).getFirstName() < (min->getInfo()).getFirstName())
+				min = temp2; 
+			temp2=temp2->getNext();
+		}
+		if(min != temp1){
+				Order x = temp1->getInfo();
+				
+					temp1->setInfo(min->getInfo());
+					min->setInfo(x);
+				}
+		temp1 = temp1->getNext();
+	}
+}
 
 Date& ListOfOrders::findFreeDate(){
     
@@ -329,8 +350,6 @@ void ListOfOrders::loadUnfinished() {
 void ListOfOrders::printOrders(){
   Node<Order> *temp;
   temp=first;
-	if(temp==nullptr)
-		cout<<"Nema narudzbi! "<< endl;
   while ( temp!=nullptr ){
     cout << temp->getInfo() << endl;
     temp=temp->getNext();
