@@ -129,20 +129,9 @@ int main(){
 			case 6: {
 				VisitingHours = 0;
                 if(promjene){
-                  string odg;
-				  cout << "Imate novih promjena, da li ih želite spremiti. ( DA / NE )." << endl;
-                  cin >> odg;
-                  if(odg == "DA" || odg == "da" || odg=="Da"){
-                    lista.SaveUnfinished();
+                  	lista.SaveUnfinished();
 					ordersHistory.save();
-                    cout << "Promjene uspijesno sacuvane." << endl;
-                    cout << endl;
                   }
-                  else {
-                    cout << "Promjene nisu sacuvane." << endl;
-                    cout << endl;
-                  }
-                }
                 cout << "Kraj radnog vremena. Dovidjenja!" << endl;
                 break;
               }
